@@ -55,6 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   LatLng position=LatLng(-17.799740, -63.148516);
   MapType mapType=MapType.normal;
+  BitmapDescriptor icon;
 
   void _incrementCounter() {
     setState(() {
@@ -66,7 +67,16 @@ class _MyHomePageState extends State<MyHomePage> {
       _counter++;
     });
   }
-
+  @override
+  void initState(){
+    getIcons();
+  }
+  getIcons()async{
+    var icon=await BitmapDescriptor.fromAssetImage(ImageConfiguration(devicePixelRatio: 2.5), "img/marker.png");
+    setState(() {
+      this.icon=icon;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -97,7 +107,8 @@ class _MyHomePageState extends State<MyHomePage> {
               //draggable: true, mover marcador a voluntad
               onDragEnd: onDragEnd,  //Devuelve la ultima posicion
               //Personalizar
-              icon:BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueMagenta)
+              //icon:BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueMagenta)
+              icon:this.icon
             )
           },
         ),
